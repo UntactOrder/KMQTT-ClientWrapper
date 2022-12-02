@@ -46,12 +46,21 @@ enum class TLSVersion(val version: Int) {
 }
 */
 
+
+/**
+ * Broker URI Information
+ */
+data class BrokerURI(val host: String, @Unsigned val port: Short) {
+    fun toString(tlsEnabled: Boolean): String = "${if (tlsEnabled) "mqtt" else "mqtts"}://$host:$port"
+}
+
 /*
  * MQTT Connect Options
  */
 data class MQTTConnectOptions(
     val username: String = "",  // Username for authentication
     val password: String = "",  // Password for authentication
+    val clientId: String = "${username}${if (username.isEmpty()) "" else "-"}KMQTT-${getPlatformName()}-Client",  // Client ID
     val tlsConfig: TLSCertConfig = TLSCertConfig(),  // TLS Config
     val mqttVersion: MQTTVersion = MQTTVersion.DEFAULT,  // MQTT Version
     val cleanStart: Boolean = true,  // If true, session is not retained. No subscriptions or undelivered messages are stored

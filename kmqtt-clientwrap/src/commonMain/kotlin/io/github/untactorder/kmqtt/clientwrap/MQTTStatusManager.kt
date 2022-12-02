@@ -5,7 +5,7 @@ open class MQTTException(
     val reasonCode: MQTTError = MQTTError.CLIENT_EXCEPTION,
     override val message: String? = null,
     override val cause: Throwable? = null
-) : Throwable()
+) : Exception()
 
 open class MqttSecurityException: MQTTException()
 open class MqttPersistenceException: MQTTException()
